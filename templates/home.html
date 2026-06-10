@@ -1,100 +1,98 @@
 {% extends "base.html" %}
 
 {% block title %}Home{% endblock %}
-
-{% block page_heading %}Market Access Analytics Platform{% endblock %}
-{% block page_subheading %}Decision support for insurance and pharma teams{% endblock %}
+{% block page_heading %}Healthcare Analytics Intelligence Platform{% endblock %}
+{% block page_subheading %}Integrated decision support across insurance, pharma, and conversational analytics{% endblock %}
 
 {% block content %}
 
 <div class="home-page">
 
-    <div class="dashboard-card home-hero-card mb-3">
-        <div class="row align-items-center g-3">
-            <div class="col-lg-8">
-                <span class="home-badge">Healthcare Decision Support</span>
+    <!-- WELCOME -->
+    <div class="dashboard-card mb-4">
+        <h3>Welcome</h3>
+        <p class="text-light">
+            This platform was designed to unify claims, payer, and disease data into a single decision-support environment. 
+            It enables stakeholders to evaluate expenditure patterns, identify leakage exposure, monitor disease demand, 
+            and prioritize future opportunities.
+        </p>
 
-                <h2 class="home-hero-title">
-                    Turn claims, disease, and payer data into actionable decisions
-                </h2>
-
-                <p class="home-hero-text">
-                    Analyze claims, payer performance, disease burden, and forecast trends
-                    from one unified platform.
-                </p>
-
-                <div class="home-hero-actions">
-                    <a href="/insurance-dashboard" class="btn btn-primary home-btn-primary">
-                        Open Insurance Dashboard
-                    </a>
-
-                    <a href="/pharma-dashboard" class="btn home-btn-secondary">
-                        Open Pharma Dashboard
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="home-hero-side">
-                    <div class="mini-metric-card purple-soft">
-                        <div class="mini-metric-title">Insurance</div>
-                        <div class="mini-metric-text">Claims, leakage, payer performance</div>
-                    </div>
-
-                    <div class="mini-metric-card blue-soft">
-                        <div class="mini-metric-title">Pharma</div>
-                        <div class="mini-metric-text">Disease trends, forecasts, planning</div>
-                    </div>
-
-                    <div class="mini-metric-card green-soft">
-                        <div class="mini-metric-title">Outcome</div>
-                        <div class="mini-metric-text">Faster decisions</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <p class="text-light">
+            The name <strong>NEXOR</strong> reflects its role as a central hub connecting multiple data sources 
+            and transforming raw healthcare data into actionable insights.
+        </p>
     </div>
 
-    <div class="row g-3 mb-3">
-        <div class="col-lg-6">
-            <div class="dashboard-card value-card h-100">
-                <div class="value-icon purple-bg">01</div>
-                <h4 class="section-title mb-1">What this tool does</h4>
-                <p class="section-text mb-0">
-                    Helps analyze claims, payer performance, disease burden, and forecasts
-                    to support better decision-making.
+    <!-- NEXOR AI -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-7">
+            <div class="dashboard-card h-100">
+                <h3>NEXOR AI</h3>
+
+                <p class="text-light">
+                    NEXOR AI is the conversational intelligence layer of the platform, designed to help users interpret 
+                    dashboard metrics, trends, and strategic signals more efficiently.
+                </p>
+
+                <p class="text-light">
+                    It connects user queries with relevant project knowledge across claims, payer performance, disease trends, 
+                    opportunity analysis, and forecast insights.
+                </p>
+
+                <p class="text-light">
+                    The assistant follows a hybrid approach — it first checks structured knowledge using similarity matching, 
+                    and when required, generates contextual responses using a local language model.
                 </p>
             </div>
         </div>
+
+        <div class="col-lg-5">
+            <div class="dashboard-card h-100">
+                <h4>What it helps explain</h4>
+                <ul class="text-light">
+                    <li>Payer performance and leakage exposure</li>
+                    <li>Claim trends and forecast interpretation</li>
+                    <li>Disease demand and opportunity signals</li>
+                    <li>Dashboard metrics and strategic insights</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- DASHBOARD SELECTION (ONLY ONE PLACE NOW) -->
+    <div class="row g-4">
 
         <div class="col-lg-6">
-            <div class="dashboard-card value-card h-100">
-                <div class="value-icon blue-bg">02</div>
-                <h4 class="section-title mb-1">Who the end users are</h4>
-                <p class="section-text mb-0">
-                    Insurance teams, pharma teams, and decision-makers looking for insights
-                    into risks, trends, and opportunities.
+            <div class="dashboard-card h-100">
+                <h4>Insurance Dashboard</h4>
+                <p class="text-light">
+                    Analyze claims performance, identify payer-level leakage exposure, 
+                    and evaluate geographic cost distribution along with forecasted trends.
                 </p>
+
+                <a href="{{ url_for('insurance_dashboard') }}" class="btn btn-primary mt-2">
+                    Open Insurance Dashboard
+                </a>
             </div>
         </div>
-    </div>
 
-    <div class="dashboard-card home-footer-strip mb-0">
-    <div class="row align-items-center g-3">
-        <div class="col-lg-9">
-            <span class="home-badge">Need Help?</span>
-            <h5 class="section-title mb-1">Have questions about the platform?</h5>
-            <p class="section-text mb-0">
-                Use <strong>NEXOR AI</strong>, our built-in floating chatbot, to ask about dashboards,
-                claims, payer performance, disease trends, or forecasts.
-            </p>
+        <div class="col-lg-6">
+            <div class="dashboard-card h-100">
+                <h4>Pharmaceutical Dashboard</h4>
+                <p class="text-light">
+                    Explore disease demand patterns, forecast claim growth, analyze patient volume, 
+                    and identify high-value market opportunities across therapeutic areas.
+                </p>
+
+                <a href="{{ url_for('pharma_dashboard') }}" class="btn btn-primary mt-2">
+                    Open Pharma Dashboard
+                </a>
+            </div>
         </div>
 
-        <div class="col-lg-3 text-lg-end">
-            <span class="faq-chip">NEXOR AI available</span>
-        </div>
     </div>
-</div>
 
 </div>
 

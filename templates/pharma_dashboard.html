@@ -1,113 +1,189 @@
 {% extends "base.html" %}
 
 {% block title %}Pharma Dashboard{% endblock %}
-
-{% block page_heading %}Pharma Company Dashboard{% endblock %}
-{% block page_subheading %}Disease Trends, Forecast, and Market Opportunity Overview{% endblock %}
+{% block page_heading %}Pharmaceutical Market Intelligence{% endblock %}
+{% block page_subheading %}Disease Trends, Opportunity Assessment, and Demand Forecasting{% endblock %}
 
 {% block content %}
 
 <div class="pharma-dashboard-page">
 
-    {% if selected_disease and selected_disease != "All" %}
-    <div class="dashboard-card compact-card mb-2">
-        <p class="mb-0"><strong>Active Disease Filter:</strong> {{ selected_disease }}</p>
+    <div class="dashboard-card mb-4">
+        <form method="GET" action="{{ url_for('pharma_dashboard') }}">
+            <div class="row g-3 align-items-end">
+
+                <div class="col-lg-3 col-md-6">
+                    <label class="filter-label">Disease</label>
+                    <select name="disease" class="form-select">
+                        <option value="All" {% if selected_disease == 'All' %}selected{% endif %}>All Diseases</option>
+                        {% for disease in disease_options %}
+                        <option value="{{ disease }}" {% if disease == selected_disease %}selected{% endif %}>{{ disease }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <label class="filter-label">Forecast View</label>
+                    <select name="forecast_view" class="form-select">
+                        <option value="Both" {% if forecast_view == 'Both' %}selected{% endif %}>Actual + Forecast</option>
+                        <option value="Actual Only" {% if forecast_view == 'Actual Only' %}selected{% endif %}>Actual Only</option>
+                        <option value="Forecast Only" {% if forecast_view == 'Forecast Only' %}selected{% endif %}>Forecast Only</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="filter-label">Start Date</label>
+                    <input type="date" name="start_date" class="form-control" value="{{ selected_start_date }}">
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="filter-label">End Date</label>
+                    <input type="date" name="end_date" class="form-control" value="{{ selected_end_date }}">
+                </div>
+
+                <div class="col-lg-2 col-md-12">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+                        <a href="{{ url_for('pharma_dashboard') }}" class="btn btn-outline-light">Reset</a>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    {% if selected_disease != 'All' or selected_start_date or selected_end_date or forecast_view != 'Both' %}
+    <div class="dashboard-card compact-card mb-3">
+        <div class="small text-light">
+            <strong>Active Filters:</strong>
+            {% if selected_disease != 'All' %} Disease = {{ selected_disease }} {% endif %}
+            {% if forecast_view != 'Both' %} | Forecast View = {{ forecast_view }} {% endif %}
+            {% if selected_start_date %} | Start = {{ selected_start_date }} {% endif %}
+            {% if selected_end_date %} | End = {{ selected_end_date }} {% endif %}
+        </div>
     </div>
     {% endif %}
 
-    <div class="row g-2 mb-2">
+    <div class="row g-4 mb-4">
         <div class="col-md-4">
             <div class="kpi-card compact-kpi kpi-purple">
-                <div class="kpi-label light-label">Total Disease Records</div>
-                <div class="kpi-value light-value">{{ total_diseases }}</div>
+                <div class="light-label">Total Disease Categories</div>
+                <div class="light-value">{{ total_diseases }}</div>
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="kpi-card compact-kpi kpi-blue">
-                <div class="kpi-label light-label">Total Actual Disease Claims</div>
-                <div class="kpi-value light-value">{{ total_actual_claims }}</div>
+                <div class="light-label">Total Patient Volume</div>
+                <div class="light-value">{{ "{:,}".format(total_patients) }}</div>
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="kpi-card compact-kpi kpi-green">
-                <div class="kpi-label light-label">Total Forecast Disease Claims</div>
-                <div class="kpi-value light-value">{{ total_forecast_claims }}</div>
+                <div class="light-label">Projected Market Value</div>
+                <div class="light-value">${{ "{:,.0f}".format(total_forecast_value) }}</div>
             </div>
         </div>
     </div>
 
-    <div class="row g-2 mb-2">
-        <div class="col-lg-6">
-            <div class="dashboard-card compact-chart-card h-100">
-                <div class="card-header-row">
-                    <div>
-                        <h4 class="section-title mb-1">SARIMA Monthly Demand Forecast</h4>
-                        <p class="section-text mb-0">
-                            Historical demand and projected demand for the selected disease.
-                        </p>
-                    </div>
-                </div>
-                <div class="chart-compact">
-                    {{ sarima_chart|safe }}
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="dashboard-card compact-chart-card h-100">
-                <div class="card-header-row">
-                    <div>
-                        <h4 class="section-title mb-1">Opportunity Matrix</h4>
-                        <p class="section-text mb-0">
-                            Exposure and leakage across payer segments to identify high-priority opportunity areas.
-                        </p>
-                    </div>
-                </div>
-                <div class="chart-compact">
-                    {{ opportunity_matrix_chart|safe }}
-                </div>
-            </div>
-        </div>
+    <div class="dashboard-card mb-4">
+        <h3 class="mb-2">Opportunity Matrix</h3>
+        <p class="text-light mb-3">
+            This bubble view highlights disease areas with the strongest strategic opportunity by comparing current patient volume, projected claim amount, and current claim burden.
+        </p>
+        <div id="opportunityMatrix" style="height: 520px;"></div>
     </div>
 
-    <div class="row g-2 mb-2">
-        <div class="col-lg-5">
-            <div class="dashboard-card compact-chart-card h-100">
-                <div class="card-header-row">
-                    <div>
-                        <h4 class="section-title mb-1">Top Disease Burden</h4>
-                        <p class="section-text mb-0">
-                            Highest historical disease claim burden.
-                        </p>
-                    </div>
-                </div>
-                <div class="chart-small">
-                    {{ disease_burden_chart|safe }}
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-7 d-flex">
-            <div class="dashboard-card compact-table-card h-100 w-100">
-                <div class="card-header-row">
-                    <div>
-                        <h4 class="section-title mb-1">Forecast Summary</h4>
-                        <p class="section-text mb-0">
-                            Forecasted claim amounts for major diseases.
-                        </p>
-                    </div>
-                </div>
-                <div class="table-scroll-box">
-                    {{ forecast_summary_table|safe }}
-                </div>
-            </div>
-        </div>
+    <div class="dashboard-card mb-4">
+        <h3 class="mb-2">Monthly Disease Demand Trend</h3>
+        <p class="text-light mb-2">
+            Shows historical patient demand trends across disease areas to identify growth patterns, demand concentration, and market opportunity signals.
+        </p>
+        <p class="text-light mb-3"><small>{{ forecast_note }}</small></p>
+        <div id="forecastChart" style="height: 440px;"></div>
     </div>
 
- 
+    <div class="dashboard-card">
+        <h3 class="mb-2">Forecast Summary Table</h3>
+        <p class="text-light mb-3">
+            Summarizes projected claim amount by disease area to support market opportunity assessment and resource prioritization.
+        </p>
+
+        <div class="table-responsive">
+            <table class="table table-dark table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Disease</th>
+                        <th class="text-end">Forecast Claim Amount ($)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if forecast_summary and forecast_summary|length > 0 %}
+                        {% for row in forecast_summary %}
+                        <tr>
+                            <td>{{ row.Disease }}</td>
+                            <td class="text-end">${{ "{:,.0f}".format(row.ForecastClaimAmount) }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="2" class="text-center text-light">
+                                No forecast summary data available for the selected filters.
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 </div>
+
+{% block extra_scripts %}
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    try {
+        const forecastGraph = {{ forecast_chart | safe }};
+        console.log("Forecast graph:", forecastGraph);
+
+        if (forecastGraph && forecastGraph.data && forecastGraph.layout) {
+            Plotly.newPlot('forecastChart', forecastGraph.data, forecastGraph.layout, {
+                responsive: true,
+                displayModeBar: false
+            });
+        } else {
+            document.getElementById("forecastChart").innerHTML =
+                "<div class='text-light text-center p-5'>No forecast chart data available.</div>";
+        }
+    } catch (err) {
+        console.error("Forecast chart error:", err);
+        document.getElementById("forecastChart").innerHTML =
+            "<div class='text-light text-center p-5'>Forecast chart could not load.</div>";
+    }
+
+    try {
+        const opportunityGraph = {{ opportunity_matrix | safe }};
+        console.log("Opportunity graph:", opportunityGraph);
+
+        if (opportunityGraph && opportunityGraph.data && opportunityGraph.layout) {
+            Plotly.newPlot('opportunityMatrix', opportunityGraph.data, opportunityGraph.layout, {
+                responsive: true,
+                displayModeBar: false
+            });
+        } else {
+            document.getElementById("opportunityMatrix").innerHTML =
+                "<div class='text-light text-center p-5'>No opportunity matrix data available.</div>";
+        }
+    } catch (err) {
+        console.error("Opportunity matrix error:", err);
+        document.getElementById("opportunityMatrix").innerHTML =
+            "<div class='text-light text-center p-5'>Opportunity matrix could not load.</div>";
+    }
+});
+</script>
+{% endblock %}
 
 {% endblock %}

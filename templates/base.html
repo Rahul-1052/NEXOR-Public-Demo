@@ -3,268 +3,593 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Healthcare Dashboard{% endblock %}</title>
+    <title>{% block title %}Healthcare Intelligence Platform{% endblock %}</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <style>
+        :root {
+            --bg-main: #050b16;
+            --bg-secondary: #08111e;
+            --sidebar-bg-1: #0b1323;
+            --sidebar-bg-2: #0a1020;
+            --card-bg: rgba(255,255,255,0.05);
+            --card-border: rgba(255,255,255,0.08);
+            --text-main: #ffffff;
+            --text-soft: #94a3b8;
+            --input-bg: rgba(255,255,255,0.96);
+            --input-text: #0f172a;
+        }
+
+        body.light-mode {
+            --bg-main: #f8fafc;
+            --bg-secondary: #e2e8f0;
+            --sidebar-bg-1: #ffffff;
+            --sidebar-bg-2: #f1f5f9;
+            --card-bg: #ffffff;
+            --card-border: rgba(15,23,42,0.10);
+            --text-main: #0f172a;
+            --text-soft: #475569;
+            --input-bg: #ffffff;
+            --input-text: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(180deg, var(--bg-main), var(--bg-secondary));
+            color: var(--text-main);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: linear-gradient(180deg, var(--sidebar-bg-1), var(--sidebar-bg-2));
+            padding: 20px;
+            border-right: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            align-self: flex-start;
+        }
+
+        .brand-box {
+            background: var(--card-bg);
+            padding: 18px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            border: 1px solid var(--card-border);
+            overflow: hidden;
+        }
+
+        .brand-tag {
+            font-size: 12px;
+            color: var(--text-soft);
+            margin-bottom: 10px;
+        }
+
+        .brand-title {
+            position: relative;
+            display: inline-block;
+            font-size: 2.6rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            overflow: hidden;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .brand-core {
+            display: inline-block;
+            background: linear-gradient(90deg, #c084fc, #60a5fa, #22d3ee, #ffffff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientFlow 6s linear infinite;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .brand-subtitle {
+            font-size: 13px;
+            color: var(--text-soft);
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .nav-item:hover {
+            background: rgba(99,102,241,0.14);
+            color: var(--text-main);
+        }
+
+        .active-nav {
+            background: linear-gradient(90deg, #6366f1, #06b6d4);
+            color: white !important;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 28px;
+        }
+
+        .top-header {
+            position: relative;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            border: 1px solid var(--card-border);
+        }
+
+        .page-heading {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+            padding-right: 140px;
+        }
+
+        .page-subheading {
+            color: var(--text-soft);
+            margin-top: 6px;
+            padding-right: 140px;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            border: 1px solid var(--card-border);
+            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+        }
+
+        .dashboard-card {
+            background: var(--card-bg);
+            padding: 18px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+        }
+
+        .compact-card {
+            padding: 14px 18px;
+        }
+
+        .filter-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .form-select,
+        .form-control {
+            background: var(--input-bg);
+            color: var(--input-text);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            min-height: 42px;
+        }
+
+        .btn-outline-light,
+        .btn-primary {
+            border-radius: 10px;
+        }
+
+        .kpi-card {
+            border-radius: 16px;
+            padding: 16px;
+            color: white;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            min-height: 110px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .compact-kpi {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .kpi-purple {
+            background: linear-gradient(135deg, rgba(124,58,237,0.92), rgba(79,70,229,0.86));
+        }
+
+        .kpi-blue {
+            background: linear-gradient(135deg, rgba(37,99,235,0.92), rgba(6,182,212,0.86));
+        }
+
+        .kpi-green {
+            background: linear-gradient(135deg, rgba(16,185,129,0.92), rgba(34,197,94,0.86));
+        }
+
+        .light-label {
+            font-size: 12px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 8px;
+        }
+
+        .light-value {
+            font-size: 22px;
+            font-weight: bold;
+            line-height: 1.25;
+        }
+
+        .small-kpi-text {
+            font-size: 18px;
+        }
+
+        .table-dark {
+            --bs-table-bg: transparent;
+            --bs-table-striped-bg: rgba(255,255,255,0.03);
+            --bs-table-border-color: rgba(255,255,255,0.08);
+            color: var(--text-main);
+        }
+
+        body.light-mode .table-dark {
+            --bs-table-color: #0f172a;
+            --bs-table-striped-color: #0f172a;
+            --bs-table-bg: transparent;
+            --bs-table-striped-bg: rgba(15,23,42,0.04);
+            --bs-table-border-color: rgba(15,23,42,0.10);
+        }
+
+        .text-light {
+            color: var(--text-main) !important;
+        }
+
+        #chatbot-button {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            color: white;
+            border-radius: 50%;
+            width: 58px;
+            height: 58px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 14px 28px rgba(0,0,0,0.45);
+            font-size: 22px;
+        }
+
+        #chatbot-box {
+            position: fixed;
+            bottom: 92px;
+            right: 24px;
+            width: 460px;
+            height: 620px;
+            background: var(--card-bg);
+            border-radius: 22px;
+            display: none;
+            overflow: hidden;
+            z-index: 9998;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+            backdrop-filter: blur(14px);
+        }
+
+        .chat-header {
+            padding: 16px 18px;
+            background: linear-gradient(90deg, #6366f1, #06b6d4);
+            font-weight: 800;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header small {
+            display: block;
+            font-weight: 400;
+            color: rgba(255,255,255,0.85);
+            margin-top: 3px;
+            font-size: 11px;
+        }
+
+        .chat-close {
+            border: none;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #chat-body {
+            padding: 16px;
+            height: 480px;
+            overflow-y: auto;
+            background: var(--bg-main);
+        }
+
+        .chat-msg {
+            margin-bottom: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.55;
+            max-width: 86%;
+            word-wrap: break-word;
+        }
+
+        .bot-msg {
+            background: rgba(148,163,184,0.18);
+            color: var(--text-main);
+            margin-right: auto;
+            border-bottom-left-radius: 6px;
+        }
+
+        .user-msg {
+            background: linear-gradient(135deg, #6366f1, #2563eb);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 6px;
+        }
+
+        .typing-msg {
+            opacity: 0.75;
+            font-style: italic;
+        }
+
+        .chat-input-wrap {
+            height: 78px;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        #chat-input {
+            flex: 1;
+            border: 1px solid var(--card-border);
+            padding: 13px 14px;
+            background: var(--input-bg);
+            color: var(--input-text);
+            border-radius: 14px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        #chat-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .chat-send-btn {
+            border: none;
+            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            color: white;
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        @media (max-width: 992px) {
+            .app-shell {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                padding: 18px;
+            }
+
+            #chatbot-box {
+                width: calc(100vw - 28px);
+                height: 72vh;
+                right: 14px;
+                bottom: 86px;
+            }
+
+            #chat-body {
+                height: calc(72vh - 140px);
+            }
+        }
+    </style>
+
+    {% block extra_head %}{% endblock %}
 </head>
+
 <body>
 
 <div class="app-shell">
-    <aside class="sidebar">
+
+    <div class="sidebar">
         <div class="brand-box">
-            <h2 class="brand-title">NEXOR</h2>
-            <p class="brand-subtitle">Decision Support Platform</p>
-        </div>
+            <div class="brand-tag">● Healthcare Intelligence Platform</div>
 
-        <nav class="sidebar-nav">
-            <a href="/" class="nav-item">Home</a>
-            <a href="/insurance-dashboard" class="nav-item">Insurance Dashboard</a>
-            <a href="/pharma-dashboard" class="nav-item">Pharma Dashboard</a>
-        </nav>
+            <h2 class="brand-title">
+                <span class="brand-core">NEXOR</span>
+            </h2>
 
-        {% if show_filters %}
-        <div class="sidebar-section">
-            <h4 class="sidebar-heading">Filters</h4>
-
-            {% if page_type == "insurance" %}
-            <form method="GET" action="/insurance-dashboard">
-                <div class="filter-group">
-                    <button class="filter-toggle" type="button" onclick="toggleFilter('insurance-date-filter')">
-                        Date Range
-                    </button>
-                    <div id="insurance-date-filter" class="filter-content open">
-                        <input type="date" name="start_date" class="filter-input" value="{{ start_date }}">
-                        <input type="date" name="end_date" class="filter-input" value="{{ end_date }}">
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <button class="filter-toggle" type="button" onclick="toggleFilter('payer-filter')">
-                        Payer
-                    </button>
-                    <div id="payer-filter" class="filter-content">
-                        {% for payer in insurance_payer_options %}
-                        <label title="{{ payer.value }}">
-                            <input type="checkbox" name="payer" value="{{ payer.value }}"
-                                {% if payer.value in selected_payers %}checked{% endif %}>
-                            {{ payer.label }}
-                        </label>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <button class="filter-toggle" type="button" onclick="toggleFilter('claimtype-filter')">
-                        Claim Type
-                    </button>
-                    <div id="claimtype-filter" class="filter-content">
-                        {% for claim_type in insurance_claim_types %}
-                        <label>
-                            <input type="checkbox" name="claim_type" value="{{ claim_type }}"
-                                {% if claim_type in selected_claim_types %}checked{% endif %}>
-                            {{ claim_type }}
-                        </label>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <button class="filter-toggle" type="button" onclick="toggleFilter('insurance-disease-filter')">
-                        Disease
-                    </button>
-                    <div id="insurance-disease-filter" class="filter-content open">
-                        <select name="disease" class="filter-input">
-                            <option value="All" {% if selected_disease == "All" %}selected{% endif %}>All Diseases</option>
-                            {% for disease in insurance_diseases %}
-                            <option value="{{ disease }}" {% if disease == selected_disease %}selected{% endif %}>
-                                {{ disease }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-
-                <div class="filter-actions">
-                    <button type="submit" class="filter-apply-btn">Apply Filter</button>
-                    <a href="/insurance-dashboard" class="filter-reset-btn">Reset All</a>
-                </div>
-            </form>
-            {% endif %}
-
-            {% if page_type == "pharma" %}
-            <form method="GET" action="/pharma-dashboard">
-                <div class="filter-group">
-                    <button class="filter-toggle" type="button" onclick="toggleFilter('pharma-date-filter')">
-                        Date Range
-                    </button>
-                    <div id="pharma-date-filter" class="filter-content open">
-                        <input type="date" name="start_date" class="filter-input" value="{{ start_date }}">
-                        <input type="date" name="end_date" class="filter-input" value="{{ end_date }}">
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <button class="filter-toggle" type="button" onclick="toggleFilter('disease-filter')">
-                        Disease
-                    </button>
-                    <div id="disease-filter" class="filter-content open">
-                        <select name="disease" class="filter-input">
-                            <option value="All" {% if selected_disease == "All" %}selected{% endif %}>All Diseases</option>
-                            {% for disease in disease_list %}
-                            <option value="{{ disease }}" {% if disease == selected_disease %}selected{% endif %}>
-                                {{ disease }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <button class="filter-toggle" type="button" onclick="toggleFilter('forecast-filter')">
-                        Forecast View
-                    </button>
-                    <div id="forecast-filter" class="filter-content open">
-                        <select name="forecast_view" class="filter-input">
-                            <option value="both" {% if forecast_view == "both" %}selected{% endif %}>Actual + Forecast</option>
-                            <option value="actual" {% if forecast_view == "actual" %}selected{% endif %}>Actual Only</option>
-                            <option value="forecast" {% if forecast_view == "forecast" %}selected{% endif %}>Forecast Only</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="filter-actions">
-                    <button type="submit" class="filter-apply-btn">Apply Filter</button>
-                    <a href="/pharma-dashboard" class="filter-reset-btn">Reset All</a>
-                </div>
-            </form>
-            {% endif %}
-        </div>
-        {% else %}
-        <div class="sidebar-section-placeholder"></div>
-        {% endif %}
-    </aside>
-
-    <main class="main-content">
-        <header class="top-header">
-            <div>
-                <h1 class="page-heading">{% block page_heading %}Dashboard{% endblock %}</h1>
-                <p class="page-subheading">{% block page_subheading %}Analytics view{% endblock %}</p>
+            <div class="brand-subtitle">
+                AI-powered decision support across insurance and pharma analytics.
             </div>
-        </header>
+        </div>
 
-        <section class="content-wrapper">
-            {% block content %}{% endblock %}
-        </section>
-    </main>
+        <a href="/" class="nav-item {% if request.path == '/' %}active-nav{% endif %}">🏠 Home</a>
+        <a href="/insurance-dashboard" class="nav-item {% if 'insurance-dashboard' in request.path %}active-nav{% endif %}">🛡️ Insurance Dashboard</a>
+        <a href="/pharma-dashboard" class="nav-item {% if 'pharma-dashboard' in request.path %}active-nav{% endif %}">💊 Pharma Dashboard</a>
+    </div>
+
+    <div class="main-content">
+        <div class="top-header">
+            <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">🌙 Dark</button>
+            <div class="page-heading">{% block page_heading %}{% endblock %}</div>
+            <div class="page-subheading">{% block page_subheading %}{% endblock %}</div>
+        </div>
+
+        {% block content %}{% endblock %}
+    </div>
+
 </div>
 
 <div id="chatbot-button" onclick="toggleChat()">💬</div>
 
 <div id="chatbot-box">
-    <div class="chat-header">NEXOR AI</div>
+    <div class="chat-header">
+        <div>
+            NEXOR AI
+            <small>Healthcare analytics assistant</small>
+        </div>
+        <button class="chat-close" onclick="toggleChat()">×</button>
+    </div>
 
     <div id="chat-body">
         <div class="chat-msg bot-msg">
-            Hi 👋 I’m <b>NEXOR AI</b>, your healthcare analytics assistant. Ask me about claims, payer performance, disease trends, or forecasts.
+            Hello. I’m <b>NEXOR AI</b>, your decision-support assistant.
+            Ask me about payer leakage, claim trends, disease opportunity, or forecast insights.
         </div>
     </div>
 
-    <input
-        type="text"
-        id="chat-input"
-        placeholder="Ask NEXOR AI a question..."
-        onkeypress="handleKey(event)"
-    >
+    <div class="chat-input-wrap">
+        <input
+            id="chat-input"
+            placeholder="Ask NEXOR AI..."
+            onkeypress="handleKey(event)"
+        >
+        <button class="chat-send-btn" onclick="sendMessage()">➤</button>
+    </div>
 </div>
 
 <script>
-function toggleFilter(id) {
-    const el = document.getElementById(id);
-    if (el) {
-        el.classList.toggle("open");
+function toggleTheme() {
+    const body = document.body;
+    body.classList.toggle("light-mode");
+
+    const isLight = body.classList.contains("light-mode");
+    localStorage.setItem("nexor-theme", isLight ? "light" : "dark");
+
+    document.getElementById("themeToggleBtn").innerText = isLight ? "☀️ Light" : "🌙 Dark";
+}
+
+function loadTheme() {
+    const savedTheme = localStorage.getItem("nexor-theme");
+
+    if (savedTheme === "light") {
+        document.body.classList.add("light-mode");
+        document.getElementById("themeToggleBtn").innerText = "☀️ Light";
+    } else {
+        document.body.classList.remove("light-mode");
+        document.getElementById("themeToggleBtn").innerText = "🌙 Dark";
     }
 }
 
 function toggleChat() {
     const box = document.getElementById("chatbot-box");
-    if (!box) return;
+    box.style.display = box.style.display === "block" ? "none" : "block";
 
     if (box.style.display === "block") {
-        box.style.display = "none";
-    } else {
-        box.style.display = "block";
+        setTimeout(() => document.getElementById("chat-input").focus(), 100);
     }
 }
 
-function handleKey(e) {
-    if (e.key !== "Enter") return;
+function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.innerText = text;
+    return div.innerHTML;
+}
 
+function handleKey(e) {
+    if (e.key === "Enter") {
+        sendMessage();
+    }
+}
+
+function sendMessage() {
     const inputEl = document.getElementById("chat-input");
     const chatBody = document.getElementById("chat-body");
-
-    if (!inputEl || !chatBody) return;
-
     const input = inputEl.value.trim();
+
     if (!input) return;
 
-    chatBody.innerHTML += `<div class="chat-msg user-msg"><b>You:</b> ${input}</div>`;
+    chatBody.innerHTML += `<div class="chat-msg user-msg">${escapeHtml(input)}</div>`;
     inputEl.value = "";
+
+    const typingId = "typing-" + Date.now();
+    chatBody.innerHTML += `<div id="${typingId}" class="chat-msg bot-msg typing-msg">NEXOR AI is thinking...</div>`;
     chatBody.scrollTop = chatBody.scrollHeight;
 
     fetch("/ask", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ message: input })
     })
     .then(res => res.json())
     .then(data => {
-        chatBody.innerHTML += `<div class="chat-msg bot-msg"><b>NEXOR AI:</b> ${data.response}</div>`;
+        const typingEl = document.getElementById(typingId);
+        if (typingEl) typingEl.remove();
+
+        const answer = data.response || data.reply || "I could not generate a response.";
+        chatBody.innerHTML += `<div class="chat-msg bot-msg">${escapeHtml(answer)}</div>`;
         chatBody.scrollTop = chatBody.scrollHeight;
     })
-    .catch(error => {
-        chatBody.innerHTML += `<div class="chat-msg bot-msg"><b>NEXOR AI:</b> Something went wrong.</div>`;
+    .catch(() => {
+        const typingEl = document.getElementById(typingId);
+        if (typingEl) typingEl.remove();
+
+        chatBody.innerHTML += `<div class="chat-msg bot-msg">Something went wrong. Please check if Flask and Ollama are running.</div>`;
         chatBody.scrollTop = chatBody.scrollHeight;
-        console.error(error);
     });
 }
 
-function handleEmbeddedKey(e) {
-    if (e.key !== "Enter") return;
-
-    const inputEl = document.getElementById("embedded-chat-input");
-    const chatBody = document.getElementById("embedded-chat-body");
-
-    if (!inputEl || !chatBody) return;
-
-    const input = inputEl.value.trim();
-    if (!input) return;
-
-    chatBody.innerHTML += `<div class="chat-msg user-msg"><b>You:</b> ${input}</div>`;
-    inputEl.value = "";
-    chatBody.scrollTop = chatBody.scrollHeight;
-
-    fetch("/ask", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ message: input })
-    })
-    .then(res => res.json())
-    .then(data => {
-        chatBody.innerHTML += `<div class="chat-msg bot-msg"><b>NEXOR AI:</b> ${data.response}</div>`;
-        chatBody.scrollTop = chatBody.scrollHeight;
-    })
-    .catch(error => {
-        chatBody.innerHTML += `<div class="chat-msg bot-msg"><b>NEXOR AI:</b> Something went wrong.</div>`;
-        chatBody.scrollTop = chatBody.scrollHeight;
-        console.error(error);
-    });
-}
+document.addEventListener("DOMContentLoaded", loadTheme);
 </script>
+
+{% block extra_scripts %}{% endblock %}
 
 </body>
 </html>

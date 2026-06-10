@@ -1,80 +1,228 @@
 {% extends "base.html" %}
 
 {% block title %}Insurance Dashboard{% endblock %}
-
-{% block page_heading %}Insurance Company Dashboard{% endblock %}
-{% block page_subheading %}Claims, Forecast, and Payer Performance Overview{% endblock %}
+{% block page_heading %}Insurance Performance Intelligence{% endblock %}
+{% block page_subheading %}Claims, Leakage Exposure, Geographic Patterns, and Forecast Outlook{% endblock %}
 
 {% block content %}
 
 <div class="insurance-dashboard-page">
 
-    <div class="row g-3 mb-3">
-        <div class="col-md-4">
+    <div class="dashboard-card mb-4">
+        <form method="GET" action="{{ url_for('insurance_dashboard') }}">
+            <div class="row g-3 align-items-end">
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="filter-label">State</label>
+                    <select name="state" class="form-select">
+                        <option value="All" {% if selected_state == 'All' %}selected{% endif %}>All States</option>
+                        {% for state in state_options %}
+                        <option value="{{ state }}" {% if selected_state == state %}selected{% endif %}>{{ state }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="filter-label">City</label>
+                    <select name="city" class="form-select">
+                        <option value="All" {% if selected_city == 'All' %}selected{% endif %}>All Cities</option>
+                        {% for city in city_options %}
+                        <option value="{{ city }}" {% if selected_city == city %}selected{% endif %}>{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="filter-label">Disease</label>
+                    <select name="disease" class="form-select">
+                        <option value="All" {% if selected_disease == 'All' %}selected{% endif %}>All Diseases</option>
+                        {% for disease in disease_options %}
+                        <option value="{{ disease }}" {% if selected_disease == disease %}selected{% endif %}>{{ disease }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="filter-label">Payer</label>
+                    <select name="payer" class="form-select">
+                        <option value="All" {% if not selected_payers %}selected{% endif %}>All Payers</option>
+                        {% for payer in payer_options %}
+                        <option value="{{ payer }}" {% if selected_payers and payer == selected_payers[0] %}selected{% endif %}>{{ payer }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="filter-label">Claim Type</label>
+                    <select name="claim_type" class="form-select">
+                        <option value="All" {% if not selected_claim_types %}selected{% endif %}>All Claim Types</option>
+                        {% for claim_type in claim_type_options %}
+                        <option value="{{ claim_type }}" {% if selected_claim_types and claim_type == selected_claim_types[0] %}selected{% endif %}>{{ claim_type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-lg-1 col-md-6">
+                    <label class="filter-label">Start Date</label>
+                    <input type="date" name="start_date" class="form-control" value="{{ start_date }}">
+                </div>
+
+                <div class="col-lg-1 col-md-6">
+                    <label class="filter-label">End Date</label>
+                    <input type="date" name="end_date" class="form-control" value="{{ end_date }}">
+                </div>
+
+                <div class="col-12">
+                    <div class="d-flex gap-2 justify-content-end mt-2">
+                        <button type="submit" class="btn btn-primary px-4">Apply Filters</button>
+                        <a href="{{ url_for('insurance_dashboard') }}" class="btn btn-outline-light">Reset</a>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    {% if selected_city != 'All' or selected_state != 'All' or selected_disease != 'All' or selected_payers or selected_claim_types or start_date or end_date %}
+    <div class="dashboard-card compact-card mb-3">
+        <div class="small text-light">
+            <strong>Active Filters:</strong>
+            {% if selected_state != 'All' %} State = {{ selected_state }} {% endif %}
+            {% if selected_city != 'All' %} | City = {{ selected_city }} {% endif %}
+            {% if selected_disease != 'All' %} | Disease = {{ selected_disease }} {% endif %}
+            {% if selected_payers %} | Payer = {{ selected_payers[0] }} {% endif %}
+            {% if selected_claim_types %} | Claim Type = {{ selected_claim_types[0] }} {% endif %}
+            {% if start_date %} | Start = {{ start_date }} {% endif %}
+            {% if end_date %} | End = {{ end_date }} {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-6">
             <div class="kpi-card compact-kpi kpi-purple">
-                <div class="kpi-label light-label">Total Claims</div>
-                <div class="kpi-value light-value">{{ total_claims }}</div>
+                <div class="light-label">Total Claims Processed</div>
+                <div class="light-value">{{ "{:,}".format(total_claims) }}</div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-lg-3 col-md-6">
             <div class="kpi-card compact-kpi kpi-blue">
-                <div class="kpi-label light-label">Total Actual Claim Cost</div>
-                <div class="kpi-value light-value">{{ total_actual }}</div>
+                <div class="light-label">Total Claims Expenditure</div>
+                <div class="light-value">${{ "{:,.2f}".format(total_actual_claim_cost) }}</div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-lg-3 col-md-6">
             <div class="kpi-card compact-kpi kpi-green">
-                <div class="kpi-label light-label">Total Forecast Claim Cost</div>
-                <div class="kpi-value light-value">{{ total_forecast }}</div>
+                <div class="light-label">Projected Claims Expenditure</div>
+                <div class="light-value">${{ "{:,.2f}".format(total_forecast_claim_cost) }}</div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="kpi-card compact-kpi kpi-purple">
+                <div class="light-label">Highest Leakage Payer</div>
+                <div class="light-value small-kpi-text">{{ highest_leakage_payer }}</div>
             </div>
         </div>
     </div>
 
-    <div class="row g-3 mb-3">
+    <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="kpi-card compact-kpi kpi-blue">
+                <div class="light-label">Top State by Cost</div>
+                <div class="light-value">{{ top_state }}</div>
+            </div>
+        </div>
+
+        <div class="col-lg-9 col-md-6">
+            <div class="dashboard-card h-100 d-flex flex-column justify-content-center">
+                <h5 class="mb-2">Forecast Interpretation</h5>
+                <p class="mb-0 text-light">{{ latest_data_note }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+
         <div class="col-lg-6">
-            <div class="dashboard-card compact-chart-card h-100">
-                <h4 class="section-title mb-1">Claim Type Distribution</h4>
-                <p class="section-text mb-0">
-                    This shows how different claim types contribute to total cost.
-                </p>
-                <div class="chart-small">
-                    {{ claim_type_chart|safe }}
-                </div>
+            <div class="dashboard-card h-100">
+                <h4>Claim Type Distribution</h4>
+                <p class="text-light mb-3">Highlights the claim categories contributing most to overall claim volume.</p>
+                {{ claim_type_chart | safe }}
             </div>
         </div>
 
         <div class="col-lg-6">
-            <div class="dashboard-card compact-chart-card h-100">
-                <h4 class="section-title mb-1">Payer Revenue Leakage</h4>
-                <p class="section-text mb-0">
-                    Denied amounts highlight where the insurance company is losing money.
-                </p>
-                <div class="chart-small">
-                    {{ leakage_chart|safe }}
-                </div>
+            <div class="dashboard-card h-100">
+                <h4>Payer Revenue Leakage</h4>
+                <p class="text-light mb-3">Identifies the payers associated with the highest cost exposure across processed claims.</p>
+                {{ payer_leakage_chart | safe }}
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="dashboard-card">
+                <h4>Actual vs Forecast Claim Cost</h4>
+                <p class="text-light mb-3">Provides a forward-looking view of projected claim cost after the latest available actual period.</p>
+                {{ forecast_chart | safe }}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+            <div class="dashboard-card h-100">
+                <h4>Geographic Cost Distribution by State</h4>
+                <p class="text-light mb-3">Shows how claim expenditure is distributed across states represented in the dataset.</p>
+                {{ state_map | safe }}
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="dashboard-card h-100">
+                <h4>City-Level Claim Distribution</h4>
+                <p class="text-light mb-3">Displays city-level concentration of claim activity and expenditure based on available patient geography.</p>
+                {{ city_map | safe }}
             </div>
         </div>
     </div>
 
-    <div class="dashboard-card compact-chart-card mb-3">
-        <h4 class="section-title mb-1">Claim Cost Trend (Actual vs Forecast)</h4>
-        <p class="section-text mb-0">
-            This chart shows how claim costs have evolved over time and how they are expected to grow in the future.
-        </p>
-        <div class="chart-compact">
-            {{ trend_chart|safe }}
-        </div>
-    </div>
+    <div class="dashboard-card">
+        <h4>Payer Performance Summary</h4>
+        <p class="text-light mb-3">Summarizes payer-level claim activity, cost exposure, and average claim cost for comparative review.</p>
 
-    <div class="dashboard-card compact-table-card mb-0">
-        <h4 class="section-title mb-1">Payer Performance Summary</h4>
-        <p class="section-text mb-0">
-            Detailed breakdown of encounters, cost, coverage, and denied amounts by payer.
-        </p>
-        <div class="table-scroll-box">
-            {{ payer_table|safe }}
+        <div class="table-responsive">
+            <table class="table table-dark table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Payer</th>
+                        <th>Payer Group</th>
+                        <th class="text-end">Total Claims</th>
+                        <th class="text-end">Total Cost</th>
+                        <th class="text-end">Average Claim Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if payer_table_rows and payer_table_rows|length > 0 %}
+                        {% for row in payer_table_rows %}
+                        <tr>
+                            <td>{{ row.PAYER_NAME }}</td>
+                            <td>{{ row.PAYER_GROUP }}</td>
+                            <td class="text-end">{{ row.TotalClaims }}</td>
+                            <td class="text-end">{{ row.TotalCost }}</td>
+                            <td class="text-end">{{ row.AverageClaimCost }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-light">No payer performance data available for the selected filters.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
     </div>
 

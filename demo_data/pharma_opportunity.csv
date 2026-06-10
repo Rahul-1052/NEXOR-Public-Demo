@@ -1,0 +1,31 @@
+Disease,CurrentPatientVolume,CurrentCost,ForecastValue,ForecastPatientVolume,OpportunityScore
+Medication review due (situation),97.0,52500.0,196273.01,370.45,271.444005
+Gingivitis (disorder),35.0,17500.0,94613.29,188.88,129.16464499999998
+Stress (finding),34.0,17000.0,83021.82,165.97,114.90041
+Full-time employment (finding),31.0,15500.0,78108.13,156.13,107.649565
+Part-time employment (finding),29.0,14500.0,56360.66,112.65,80.65783
+Viral sinusitis (disorder),17.0,8500.0,60440.25,120.9,80.185125
+Gingival disease (disorder),11.0,5500.0,39839.52,79.61,52.73326
+Acute viral pharyngitis (disorder),8.0,4000.0,38049.05,76.1,49.259525
+Social isolation (finding),18.0,9000.0,32564.07,65.13,47.177535
+Not in labor force (finding),14.0,7000.0,33591.31,67.18,46.608655
+Limited social contact (finding),10.0,5000.0,32634.32,65.27,43.66166
+Primary dental caries (disorder),11.0,5500.0,31091.96,62.18,42.25898
+Acute bronchitis (disorder),10.0,5000.0,30060.76,60.12,40.57238
+Normal pregnancy (finding),7.0,3500.0,29950.66,59.91,39.09383
+Reports of violence in the environment (finding),9.0,4500.0,22569.84,45.14,31.13392
+Victim of intimate partner abuse (finding),9.0,4500.0,21461.06,42.91,29.79903
+Unemployed (finding),8.0,4000.0,21630.45,43.26,29.556225
+Risk activity involvement (finding),3.0,1500.0,7075.22,14.15,9.84011
+Body mass index 30+ - obesity (finding),2.0,1000.0,7336.57,14.67,9.702785
+Anemia (disorder),1.0,500.0,6807.86,13.62,8.62093
+Prediabetes (finding),0.0,0.0,6478.07,12.95,7.771535
+Chronic pain (finding),0.0,0.0,6431.73,12.86,7.716864999999999
+Essential hypertension (disorder),2.0,1000.0,5449.2300000000005,10.9,7.439615
+Received higher education (finding),0.0,0.0,5564.27,11.12,6.674135
+Chronic sinusitis (disorder),2.0,1000.0,4798.51,9.6,6.659255000000001
+Has a criminal record (finding),0.0,0.0,5143.97,10.29,6.173485
+Past pregnancy history of miscarriage (situation),1.0,500.0,4129.38,8.27,5.409190000000001
+Educated to high school level (finding),0.0,0.0,3823.14,7.640000000000001,4.58557
+Housing unsatisfactory (finding),0.0,0.0,3369.95,6.73,4.040475
+Chronic low back pain (finding),0.0,0.0,0.0,0.0,0.0

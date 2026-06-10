@@ -1,0 +1,181 @@
+MonthStart,Disease,ForecastPatientCount,ForecastClaimAmount
+2026-02-01,Medication review due (situation),61.45,32555.36
+2026-03-01,Medication review due (situation),61.56,32618.08
+2026-04-01,Medication review due (situation),61.68,32680.81
+2026-05-01,Medication review due (situation),61.8,32743.53
+2026-06-01,Medication review due (situation),61.92,32806.25
+2026-07-01,Medication review due (situation),62.04,32868.98
+2026-02-01,Gingivitis (disorder),31.28,15667.92
+2026-03-01,Gingivitis (disorder),31.36,15708.3
+2026-04-01,Gingivitis (disorder),31.44,15748.69
+2026-05-01,Gingivitis (disorder),31.52,15789.07
+2026-06-01,Gingivitis (disorder),31.6,15829.46
+2026-07-01,Gingivitis (disorder),31.68,15869.85
+2026-02-01,Full-time employment (finding),25.88,12944.43
+2026-03-01,Full-time employment (finding),25.93,12973.87
+2026-04-01,Full-time employment (finding),25.99,13003.3
+2026-05-01,Full-time employment (finding),26.05,13032.74
+2026-06-01,Full-time employment (finding),26.11,13062.18
+2026-07-01,Full-time employment (finding),26.17,13091.61
+2026-02-01,Stress (finding),27.51,13758.88
+2026-03-01,Stress (finding),27.57,13790.12
+2026-04-01,Stress (finding),27.63,13821.35
+2026-05-01,Stress (finding),27.69,13852.59
+2026-06-01,Stress (finding),27.75,13883.82
+2026-07-01,Stress (finding),27.82,13915.06
+2026-02-01,Viral sinusitis (disorder),19.95,9974.2
+2026-03-01,Viral sinusitis (disorder),20.03,10013.87
+2026-04-01,Viral sinusitis (disorder),20.11,10053.54
+2026-05-01,Viral sinusitis (disorder),20.19,10093.21
+2026-06-01,Viral sinusitis (disorder),20.27,10132.88
+2026-07-01,Viral sinusitis (disorder),20.35,10172.55
+2026-02-01,Part-time employment (finding),18.65,9328.95
+2026-03-01,Part-time employment (finding),18.7,9354.75
+2026-04-01,Part-time employment (finding),18.75,9380.54
+2026-05-01,Part-time employment (finding),18.8,9406.34
+2026-06-01,Part-time employment (finding),18.85,9432.14
+2026-07-01,Part-time employment (finding),18.9,9457.94
+2026-02-01,Limited social contact (finding),10.81,5403.17
+2026-03-01,Limited social contact (finding),10.84,5417.53
+2026-04-01,Limited social contact (finding),10.86,5431.88
+2026-05-01,Limited social contact (finding),10.89,5446.23
+2026-06-01,Limited social contact (finding),10.92,5460.58
+2026-07-01,Limited social contact (finding),10.95,5474.93
+2026-02-01,Social isolation (finding),10.78,5390.7
+2026-03-01,Social isolation (finding),10.81,5405.36
+2026-04-01,Social isolation (finding),10.84,5420.02
+2026-05-01,Social isolation (finding),10.87,5434.67
+2026-06-01,Social isolation (finding),10.9,5449.33
+2026-07-01,Social isolation (finding),10.93,5463.99
+2026-02-01,Gingival disease (disorder),13.15,6578.25
+2026-03-01,Gingival disease (disorder),13.2,6602.92
+2026-04-01,Gingival disease (disorder),13.24,6627.59
+2026-05-01,Gingival disease (disorder),13.29,6652.25
+2026-06-01,Gingival disease (disorder),13.34,6676.92
+2026-07-01,Gingival disease (disorder),13.39,6701.59
+2026-01-01,Received higher education (finding),1.86,927.7
+2026-02-01,Received higher education (finding),1.86,927.57
+2026-03-01,Received higher education (finding),1.85,927.44
+2026-04-01,Received higher education (finding),1.85,927.31
+2026-05-01,Received higher education (finding),1.85,927.19
+2026-06-01,Received higher education (finding),1.85,927.06
+2026-02-01,Body mass index 30+ - obesity (finding),2.44,1220.02
+2026-03-01,Body mass index 30+ - obesity (finding),2.44,1221.11
+2026-04-01,Body mass index 30+ - obesity (finding),2.44,1222.21
+2026-05-01,Body mass index 30+ - obesity (finding),2.45,1223.31
+2026-06-01,Body mass index 30+ - obesity (finding),2.45,1224.41
+2026-07-01,Body mass index 30+ - obesity (finding),2.45,1225.51
+2026-02-01,Acute viral pharyngitis (disorder),12.54,6268.45
+2026-03-01,Acute viral pharyngitis (disorder),12.6,6297.68
+2026-04-01,Acute viral pharyngitis (disorder),12.65,6326.9
+2026-05-01,Acute viral pharyngitis (disorder),12.71,6356.12
+2026-06-01,Acute viral pharyngitis (disorder),12.77,6385.34
+2026-07-01,Acute viral pharyngitis (disorder),12.83,6414.56
+2026-02-01,Not in labor force (finding),11.11,5556.64
+2026-03-01,Not in labor force (finding),11.15,5573.41
+2026-04-01,Not in labor force (finding),11.18,5590.17
+2026-05-01,Not in labor force (finding),11.21,5606.93
+2026-06-01,Not in labor force (finding),11.25,5623.7
+2026-07-01,Not in labor force (finding),11.28,5640.46
+2026-02-01,Primary dental caries (disorder),10.27,5134.33
+2026-03-01,Primary dental caries (disorder),10.31,5153.39
+2026-04-01,Primary dental caries (disorder),10.34,5172.46
+2026-05-01,Primary dental caries (disorder),10.38,5191.53
+2026-06-01,Primary dental caries (disorder),10.42,5210.59
+2026-07-01,Primary dental caries (disorder),10.46,5229.66
+2026-02-01,Victim of intimate partner abuse (finding),7.11,3552.63
+2026-03-01,Victim of intimate partner abuse (finding),7.12,3562.31
+2026-04-01,Victim of intimate partner abuse (finding),7.14,3572.0
+2026-05-01,Victim of intimate partner abuse (finding),7.16,3581.69
+2026-06-01,Victim of intimate partner abuse (finding),7.18,3591.37
+2026-07-01,Victim of intimate partner abuse (finding),7.2,3601.06
+2026-02-01,Acute bronchitis (disorder),9.91,4953.49
+2026-03-01,Acute bronchitis (disorder),9.95,4976.14
+2026-04-01,Acute bronchitis (disorder),10.0,4998.8
+2026-05-01,Acute bronchitis (disorder),10.04,5021.45
+2026-06-01,Acute bronchitis (disorder),10.09,5044.11
+2026-07-01,Acute bronchitis (disorder),10.13,5066.77
+2026-01-01,Prediabetes (finding),2.15,1077.09
+2026-02-01,Prediabetes (finding),2.16,1078.12
+2026-03-01,Prediabetes (finding),2.16,1079.16
+2026-04-01,Prediabetes (finding),2.16,1080.2
+2026-05-01,Prediabetes (finding),2.16,1081.23
+2026-06-01,Prediabetes (finding),2.16,1082.27
+2026-02-01,Unemployed (finding),7.14,3570.42
+2026-03-01,Unemployed (finding),7.17,3584.28
+2026-04-01,Unemployed (finding),7.2,3598.14
+2026-05-01,Unemployed (finding),7.22,3612.01
+2026-06-01,Unemployed (finding),7.25,3625.87
+2026-07-01,Unemployed (finding),7.28,3639.73
+2026-02-01,Anemia (disorder),2.26,1131.28
+2026-03-01,Anemia (disorder),2.27,1132.62
+2026-04-01,Anemia (disorder),2.27,1133.97
+2026-05-01,Anemia (disorder),2.27,1135.32
+2026-06-01,Anemia (disorder),2.27,1136.66
+2026-07-01,Anemia (disorder),2.28,1138.01
+2026-02-01,Reports of violence in the environment (finding),7.46,3728.3
+2026-03-01,Reports of violence in the environment (finding),7.48,3741.64
+2026-04-01,Reports of violence in the environment (finding),7.51,3754.97
+2026-05-01,Reports of violence in the environment (finding),7.54,3768.31
+2026-06-01,Reports of violence in the environment (finding),7.56,3781.64
+2026-07-01,Reports of violence in the environment (finding),7.59,3794.98
+2026-02-01,Risk activity involvement (finding),2.35,1174.33
+2026-03-01,Risk activity involvement (finding),2.35,1176.28
+2026-04-01,Risk activity involvement (finding),2.36,1178.23
+2026-05-01,Risk activity involvement (finding),2.36,1180.18
+2026-06-01,Risk activity involvement (finding),2.36,1182.13
+2026-07-01,Risk activity involvement (finding),2.37,1184.07
+2025-12-01,Chronic pain (finding),2.23,1113.65
+2026-01-01,Chronic pain (finding),2.19,1096.97
+2026-02-01,Chronic pain (finding),2.16,1080.29
+2026-03-01,Chronic pain (finding),2.13,1063.62
+2026-04-01,Chronic pain (finding),2.09,1046.94
+2026-05-01,Chronic pain (finding),2.06,1030.26
+2026-02-01,Essential hypertension (disorder),1.81,905.68
+2026-03-01,Essential hypertension (disorder),1.81,906.69
+2026-04-01,Essential hypertension (disorder),1.82,907.7
+2026-05-01,Essential hypertension (disorder),1.82,908.71
+2026-06-01,Essential hypertension (disorder),1.82,909.72
+2026-07-01,Essential hypertension (disorder),1.82,910.73
+2025-12-01,Educated to high school level (finding),1.28,638.41
+2026-01-01,Educated to high school level (finding),1.28,637.92
+2026-02-01,Educated to high school level (finding),1.27,637.43
+2026-03-01,Educated to high school level (finding),1.27,636.95
+2026-04-01,Educated to high school level (finding),1.27,636.46
+2026-05-01,Educated to high school level (finding),1.27,635.97
+2026-02-01,Past pregnancy history of miscarriage (situation),1.37,687.33
+2026-03-01,Past pregnancy history of miscarriage (situation),1.38,687.69
+2026-04-01,Past pregnancy history of miscarriage (situation),1.38,688.05
+2026-05-01,Past pregnancy history of miscarriage (situation),1.38,688.41
+2026-06-01,Past pregnancy history of miscarriage (situation),1.38,688.77
+2026-07-01,Past pregnancy history of miscarriage (situation),1.38,689.13
+2026-02-01,Normal pregnancy (finding),9.86,4930.49
+2026-03-01,Normal pregnancy (finding),9.91,4955.01
+2026-04-01,Normal pregnancy (finding),9.96,4979.52
+2026-05-01,Normal pregnancy (finding),10.01,5004.03
+2026-06-01,Normal pregnancy (finding),10.06,5028.55
+2026-07-01,Normal pregnancy (finding),10.11,5053.06
+2026-02-01,Chronic sinusitis (disorder),1.6,797.59
+2026-03-01,Chronic sinusitis (disorder),1.6,798.45
+2026-04-01,Chronic sinusitis (disorder),1.6,799.32
+2026-05-01,Chronic sinusitis (disorder),1.6,800.18
+2026-06-01,Chronic sinusitis (disorder),1.6,801.05
+2026-07-01,Chronic sinusitis (disorder),1.6,801.92
+2026-01-01,Has a criminal record (finding),1.71,854.45
+2026-02-01,Has a criminal record (finding),1.71,855.6
+2026-03-01,Has a criminal record (finding),1.71,856.75
+2026-04-01,Has a criminal record (finding),1.72,857.9
+2026-05-01,Has a criminal record (finding),1.72,859.06
+2026-06-01,Has a criminal record (finding),1.72,860.21
+2025-11-01,Chronic low back pain (finding),0.0,0.0
+2025-12-01,Chronic low back pain (finding),0.0,0.0
+2026-01-01,Chronic low back pain (finding),0.0,0.0
+2026-02-01,Chronic low back pain (finding),0.0,0.0
+2026-03-01,Chronic low back pain (finding),0.0,0.0
+2026-04-01,Chronic low back pain (finding),0.0,0.0
+2026-01-01,Housing unsatisfactory (finding),1.13,563.0
+2026-02-01,Housing unsatisfactory (finding),1.12,562.46
+2026-03-01,Housing unsatisfactory (finding),1.12,561.93
+2026-04-01,Housing unsatisfactory (finding),1.12,561.39
+2026-05-01,Housing unsatisfactory (finding),1.12,560.85
+2026-06-01,Housing unsatisfactory (finding),1.12,560.32
